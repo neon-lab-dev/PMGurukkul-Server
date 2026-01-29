@@ -1,0 +1,73 @@
+import mongoose from "mongoose";
+
+const schema = new mongoose.Schema({
+  orderId : {
+    type: String,
+    required: true,
+    unique: true
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  course: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Course",
+      required: true,
+    },
+  ],
+  discountedPrice: {
+    type: Number,
+    required: true,
+  },
+  gst: {
+    type: Number,
+    default: 18, // GST percentage
+  },
+  totalPrice: {
+    type: Number,
+    required: true,
+  },
+  commission: {
+    type: Number,
+    required: true,
+  },
+  tds: {
+    type: Number,
+    required: true,
+  },
+  amountCredited: {
+    type: Number,
+    required: true,
+  },
+  razorpay_payment_id: {
+    type: String,
+  },
+  paymentId: {
+    type: String,
+  },
+  status : {
+    type: String,
+    default: "paid",
+  },
+  orderType: {
+    type: String,
+    required: true,
+    enum: {
+      values: ["singleCourse", "bundleCourse"],
+    },
+  },
+  bundleTitle : {
+    type: String,
+    required: false,
+    default : null
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+export const Order = mongoose.model("Order", schema);
